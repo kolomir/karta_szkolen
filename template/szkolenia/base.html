@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+    {% include "szkolenia/head.html" %}
+    <body class="d-flex flex-column h-100 d-inline-block">
+        {% include "szkolenia/header.html" %}
+        {% include "szkolenia/messages.html" %}
+
+        {% block content %}
+        {% endblock content %}
+
+        {% include "szkolenia/footer.html" %}
+        {% include "szkolenia/scripts.html" %}
+    </body>
+</html>
