@@ -33,7 +33,7 @@ class Szkolacy(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="szkolacy")
     dzial = models.ForeignKey(Dzial, on_delete=models.CASCADE)
 
-    def __str__(self):
+    def __int__(self):
         return self.user
 
 
