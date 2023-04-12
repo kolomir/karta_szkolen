@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Szkolenia, Dzial
-from .forms import DzialForm, SkasowacDzial
+from .models import Szkolenia, Dzial, Pracownik
+from .forms import DzialForm, SkasowacDzial, PracownikForm, SkasowacPracownik
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
@@ -17,6 +17,90 @@ def ostatnie_wpisy(request):
         'ostatnie_szkolenia': ostatnie_szkolenia
     }
     return render(request, 'szkolenia/ostatnie.html', context)
+# ---------------------------------------------------------------------------------------------------------------------
+
+
+'''
+Pracownik
+-----------------------------------------------------------------------------------------------------------------------
+'''
+@login_required
+def nowy_pracownik(request):
+    form_pracownik = PracownikForm(request.POST or None, request.FILES or None)
+    dzial = Dzial.objects.filter(aktywny=True).order_by('dzial')
+
+    if form_pracownik.is_valid():
+        form_pracownik.save()
+        return redirect(wpisyPracownik)
+
+    context = {
+        'form_pracownik': form_pracownik,
+        'dzial': dzial
+    }
+
+    return render(request, 'szkolenia/form_pracownik.html', context)
+
+
+@login_required
+def edytuj_pracownik(request, id):
+    wpis = get_object_or_404(Pracownik, pk=id)
+    dzial = Dzial.objects.filter(aktywny=True).order_by('dzial')
+    form_pracownik = PracownikForm(request.POST or None, request.FILES or None, instance=wpis)
+
+    if form_pracownik.is_valid():
+        form_pracownik.save()
+        return redirect(wpisyPracownik)
+
+    context = {
+        'form_pracownik': form_pracownik,
+        'wpis': wpis,
+        'dzial': dzial
+    }
+
+    return render(request, 'szkolenia/form_pracownik_ed.html', context)
+
+
+@login_required
+def usun_pracownik(request, id):
+    wpis = get_object_or_404(Pracownik, pk=id)
+    form_wpis = SkasowacPracownik(request.POST or None, request.FILES or None, instance=wpis)
+
+    if form_wpis.is_valid():
+        kasuj = form_wpis.save(commit=False)
+        kasuj.zatrudniony = 0
+        kasuj.save()
+        return redirect(wpisyPracownik)
+
+    context = {
+        'wpis': wpis
+    }
+    return render(request, 'szkolenia/potwierdz_pracownik.html', context)
+
+
+@login_required
+def przywroc_pracownik(request, id):
+    wpis = get_object_or_404(Pracownik, pk=id)
+    form_wpis = SkasowacPracownik(request.POST or None, request.FILES or None, instance=wpis)
+
+    if form_wpis.is_valid():
+        kasuj = form_wpis.save(commit=False)
+        kasuj.zatrudniony = 1
+        kasuj.save()
+        return redirect(wpisyPracownik)
+
+    context = {
+        'wpis': wpis
+    }
+    return render(request, 'szkolenia/potwierdz_pracownik.html', context)
+
+
+def wpisyPracownik(request):
+    pracownik = Pracownik.objects.all().order_by('nr_pracownika')
+
+    context = {
+        'pracownik': pracownik
+    }
+    return render(request,'szkolenia/pracownik.html',context)
 # ---------------------------------------------------------------------------------------------------------------------
 
 
