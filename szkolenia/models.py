@@ -2,6 +2,13 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class Autor(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
+
+    def __str__(self):
+        return self.user.username
+
+
 class Dzial(models.Model):
     dzial = models.CharField(max_length=20, unique=True)
     aktywny = models.BooleanField(default=True)
@@ -44,6 +51,7 @@ class Szkolenia(models.Model):
     opis = models.CharField(max_length=2500)
     szkolacy = models.ForeignKey(Szkolacy, on_delete=models.CASCADE)
     data_dodania = models.DateField('data dodania', blank=True, null=True)
+    dodajacy = models.ForeignKey(Autor, on_delete=models.CASCADE, related_name='dodajacy')
 
     def __str__(self):
         return self.temat

@@ -1,5 +1,10 @@
 from django.contrib import admin
-from .models import Dzial, Pracownik, Szkolacy, Szkolenia, Szkolenie, Lider_Dzial
+from .models import Dzial, Pracownik, Szkolacy, Szkolenia, Szkolenie, Lider_Dzial, Autor
+
+@admin.register(Autor)
+class LokalizacjaAutor(admin.ModelAdmin):
+    list_display = ('user',)
+    list_filter = ('user',)
 
 
 @admin.register(Dzial)

@@ -1,10 +1,23 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Szkolenia, Dzial, Pracownik
+from .models import Szkolenia, Dzial, Pracownik, Autor
 from .forms import DzialForm, SkasowacDzial, PracownikForm, SkasowacPracownik
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+
+
+'''
+Inne
+-----------------------------------------------------------------------------------------------------------------------
+'''
+def get_author(user):
+    qs = Autor.objects.filter(user=user)
+    if qs.exists():
+        return qs[0]
+    return None
+# ---------------------------------------------------------------------------------------------------------------------
+
 
 '''
 Ostatnie wpisy
