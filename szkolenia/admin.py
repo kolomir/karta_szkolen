@@ -16,9 +16,9 @@ class LokalizacjaDzial(admin.ModelAdmin):
 
 @admin.register(Pracownik)
 class LokalizacjaPracownik(admin.ModelAdmin):
-    list_display = ('nr_pracownika','imie','nazwisko','dzial','zatrudniony')
-    list_filter = ('nr_pracownika','imie','nazwisko','dzial','zatrudniony')
-    search_fields = ('nr_pracownika','imie','nazwisko','dzial','zatrudniony')
+    list_display = ('nr_pracownika','imie','nazwisko','dzial','szkolacy','zatrudniony')
+    list_filter = ('nr_pracownika','imie','nazwisko','dzial','szkolacy','zatrudniony')
+    search_fields = ('nr_pracownika','imie','nazwisko','dzial','szkolacy','zatrudniony')
 
 
 @admin.register(Szkolacy)

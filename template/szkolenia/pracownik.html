@@ -18,6 +18,7 @@
                     <th class="th-sm">Imie</th>
                     <th class="th-sm">Nazwisko</th>
                     <th class="th-sm" width="15%">Dzial</th>
+                    <th class="th-sm" width="8%">Szkolący</th>
                     <th class="th-sm" width="8%">Zatrudniony</th>
                     {% if user.is_authenticated %}
                     <th class="th-sm" width="22%">#</th>
@@ -32,6 +33,7 @@
                     <td>{{ wpis.imie }}</td>
                     <td>{{ wpis.nazwisko }}</td>
                     <td>{{ wpis.dzial }}</td>
+                    <td>{{ wpis.szkolacy }}</td>
                     <td>{{ wpis.zatrudniony }}</td>
                     {% if user.is_authenticated %}
                     <td>
@@ -53,6 +55,7 @@
                     <th class="th-sm">Imie</th>
                     <th class="th-sm">Nazwisko</th>
                     <th class="th-sm">Dzial</th>
+                    <th class="th-sm">Szkolący</th>
                     <th class="th-sm">Zatrudniony</th>
                     {% if user.is_authenticated %}
                     <th class="th-sm">#</th>

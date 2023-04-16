@@ -23,6 +23,7 @@ class Pracownik(models.Model):
     nazwisko = models.CharField(max_length=40)
     dzial = models.ForeignKey(Dzial, on_delete=models.CASCADE)
     zatrudniony = models.BooleanField(default=True)
+    szkolacy = models.BooleanField(default=False)
 
     def __str__(self):
         return "({}) {} {}".format(self.nr_pracownika.__str__(),self.imie,self.nazwisko)
@@ -49,7 +50,7 @@ class Szkolenia(models.Model):
     czas_szkolenia = models.TimeField('czas szkolenia') #jak długo trwało szkolenie
     temat = models.CharField(max_length=250)
     opis = models.CharField(max_length=2500)
-    szkolacy = models.ForeignKey(Szkolacy, on_delete=models.CASCADE)
+    szkolacy = models.ForeignKey(Pracownik, on_delete=models.CASCADE)
     data_dodania = models.DateField('data dodania', blank=True, null=True)
     dodajacy = models.ForeignKey(Autor, on_delete=models.CASCADE, related_name='dodajacy')
 

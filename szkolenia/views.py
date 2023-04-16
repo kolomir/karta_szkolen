@@ -42,7 +42,14 @@ def nowy_pracownik(request):
     form_pracownik = PracownikForm(request.POST or None, request.FILES or None)
     dzial = Dzial.objects.filter(aktywny=True).order_by('dzial')
 
+    serw = request.POST.get('szkolacy')
+    if serw == 'on':
+        szkolacy = True
+    else:
+        szkolacy = False
+
     if form_pracownik.is_valid():
+        form_pracownik.instance.szkolacy = szkolacy
         form_pracownik.save()
         return redirect(wpisyPracownik)
 
@@ -60,7 +67,14 @@ def edytuj_pracownik(request, id):
     dzial = Dzial.objects.filter(aktywny=True).order_by('dzial')
     form_pracownik = PracownikForm(request.POST or None, request.FILES or None, instance=wpis)
 
+    serw = request.POST.get('szkolacy')
+    if serw == 'on':
+        szkolacy = True
+    else:
+        szkolacy = False
+
     if form_pracownik.is_valid():
+        form_pracownik.instance.szkolacy = szkolacy
         form_pracownik.save()
         return redirect(wpisyPracownik)
 
