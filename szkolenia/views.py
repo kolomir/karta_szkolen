@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Szkolenia, Dzial, Pracownik, Autor
-from .forms import DzialForm, SkasowacDzial, PracownikForm, SkasowacPracownik
+from .models import Szkolenia, Dzial, Pracownik, Autor, Lider_Dzial
+from .forms import DzialForm, SkasowacDzial, PracownikForm, SkasowacPracownik, LiderDzial
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
@@ -209,6 +209,43 @@ def wpisyDzialy(request):
         'dzialy': dzialy
     }
     return render(request,'szkolenia/dzialy.html',context)
+# ---------------------------------------------------------------------------------------------------------------------
+
+
+'''
+Lider <-> Dział
+-----------------------------------------------------------------------------------------------------------------------
+'''
+@login_required
+def przypisz_lider_dzial(request):
+    form_lider_dzial = LiderDzial(request.POST or None, request.FILES or None)
+    lider_user = Autor.objects.all()
+    dzial = Dzial.objects.filter(aktywny=True).order_by('dzial')
+    print(lider_user)
+
+    if form_lider_dzial.is_valid():
+        get_lider = request.POST.get('lider_user')
+        print(get_lider)
+        form_lider_dzial.save()
+        return redirect(wpisy_lider_dzial)
+
+    context = {
+        'form_lider_dzial': form_lider_dzial,
+        'lider_user': lider_user,
+        'dzial': dzial,
+    }
+
+    return render(request, 'szkolenia/form_lider_dzial.html', context)
+
+# TODO: Dodać jeszcze edycję, kasowanie i i przywracanie. Linki w szablonie HTML są niepoprawne w tej chwili.
+
+def wpisy_lider_dzial(request):
+    lider_dzial = Lider_Dzial.objects.all().order_by('user')
+
+    context = {
+        'lider_dzial': lider_dzial
+    }
+    return render(request,'szkolenia/lider_dzial.html',context)
 # ---------------------------------------------------------------------------------------------------------------------
 
 

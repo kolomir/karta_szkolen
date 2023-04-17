@@ -47,3 +47,4 @@ class LokalizacjaLider_dzial(admin.ModelAdmin):
     list_display = ('user','dzial')
     list_filter = ('user','dzial')
     search_fields = ('user','dzial')
+

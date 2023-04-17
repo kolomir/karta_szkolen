@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Dzial, Pracownik
+from .models import Dzial, Pracownik, Lider_Dzial
 
 '''
 Dzial
@@ -40,3 +40,13 @@ class SkasowacPracownik(ModelForm):
         fields = [
             'zatrudniony',
         ]
+
+
+'''
+Pracownik
+-----------------------------------------------------------------------------------------------------------------------
+'''
+class LiderDzial(ModelForm):
+    class Meta:
+        model = Lider_Dzial
+        fields = ['user','dzial']
